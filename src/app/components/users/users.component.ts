@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/users';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-users',
@@ -18,38 +19,17 @@ export class UsersComponent implements OnInit {
     lastName: '',
     email: ''
   }
-  constructor() { }
+  data:any;
+  constructor(private dataSerive : DataService) { }
 
   ngOnInit() {
-    this.users = [
-      {
-        firstName: 'Angular',
-        lastName: 'Node',
-        email: 'aaa@gmail.com',
-        isActive: false,
-
-        registered: new Date('01/02/2019 08:30:00'),
-        hide: true
-      },
-      {
-        firstName: 'React',
-        lastName: 'Node',
-        email: 'bbb@gmail.com',
-        isActive: true,
-
-        registered: new Date('01/02/2019 08:30:00'),
-        hide: true
-      },
-      {
-        firstName: 'Vue',
-        lastName: 'Node',
-        email: 'ccc@gmail.com',
-        isActive: false,
-        registered: new Date('01/02/2019 08:30:00'),
-        hide: true
-      }
-    ];
-    this.loaded = true;
+    this.dataSerive.getData().subscribe(data=>{
+      console.log(data);
+    })
+    this.dataSerive.getUsers().subscribe(users =>{
+     this.users = users;
+     this.loaded = true;
+   })
 
   }
 
@@ -73,4 +53,5 @@ export class UsersComponent implements OnInit {
   fireEvent(e) {
     console.log(e.target.value);
   }
+
 }
